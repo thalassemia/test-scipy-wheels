@@ -1,0 +1,41 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test_wheel:
+    runs-on: macos-11
+    steps:
+      - name: Download artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          # Optional, GitHub token, a Personal Access Token with `public_repo` scope if needed
+          # Required, if the artifact is from a different repo
+          # Required, if the repo is private a Personal Access Token with `repo` scope is needed or GitHub token in a job where the permissions `action` scope set to `read`
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          # Optional, will use the specified branch. Defaults to all branches
+          branch: accelerate_whl
+          workflow: wheels.yml
+          # Optional, uploaded artifact name,
+          # will download all artifacts if not specified
+          # and extract them into respective subdirectories
+          # https://github.com/actions/download-artifact#download-all-artifacts
+          # is treated as a regular expression if input name_is_regexp is true
+          # will download only those artifacts with a name that matches this regular expression
+          # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
+          name: cp311-macosx x86_64 openblas 10.9 
+          # Optional, name is treated as a regular expression if set true
+          name_is_regexp: true
+          # Optional, a directory where to extract artifact(s), defaults to the current directory
+          path: extract_here
+          # Optional, defaults to current repo
+          repo: thalassemia/scipy
+          run_number: 127
+          workflow_conclusion: failure

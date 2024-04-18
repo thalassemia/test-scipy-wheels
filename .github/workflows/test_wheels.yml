@@ -19,7 +19,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           branch: accelerate_whl
           workflow: wheels.yml
-          name: cp311-macosx x86_64 accelerate 14.0 
+          name: cp311-macosx x86_64 openblas 10.9 
           repo: thalassemia/scipy
           run_number: 127
           workflow_conclusion: failure
@@ -33,7 +33,7 @@ jobs:
           tee -a build_and_test.sh << END
           pip install pooch pytest pytest-xdist hypothesis pythran \
             array-api-strict pytest-timeout asv pytest-cov \
-            scipy-1.14.0.dev0-cp311-cp311-macosx_14_0_x86_64.whl
+            scipy-1.14.0.dev0-cp311-cp311-macosx_10_9_x86_64.whl
           cd \$(python -c 'import os; import scipy; print(os.path.dirname(scipy.__file__))')/..
           pytest -n auto scipy
           END
